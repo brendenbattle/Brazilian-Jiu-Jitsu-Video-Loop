@@ -1,0 +1,10 @@
+const assert = require('assert'); const c = require('../player/playlist-core.js'); const pl = require('../playlist.json');
+assert.strictEqual(c.youtubeId('https://www.youtube.com/watch?v=Qu_9Lcdrh_w'), 'Qu_9Lcdrh_w');
+assert.strictEqual(c.youtubeId('https://youtu.be/80y0o5fMEKA?t=3'), '80y0o5fMEKA');
+assert.strictEqual(c.youtubeId('nope'), null);
+const items = c.normalize(pl); assert.strictEqual(items.length, 9);
+assert.strictEqual(c.normalize({items:[{type:'aoj',url:'https://evil.com/x'},{type:'youtube',url:'x',enabled:true},{type:'youtube',url:'https://youtu.be/80y0o5fMEKA',enabled:false}]}).length, 0);
+const r = new c.Rotator(items); const seen = []; for (let i = 0; i < 20; i++) seen.push(r.next().url);
+assert.strictEqual(seen[9], seen[0]); assert.strictEqual(new Set(seen).size, 9);
+const r2 = new c.Rotator(items.slice(0,2)); assert(!r2.fail()); assert(!r2.fail()); assert(!r2.fail()); assert(r2.fail());
+console.log('js core: all tests passed');

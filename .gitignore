@@ -1,0 +1,37 @@
+# Python caches and virtualenvs
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+ENV/
+
+# Runtime logs and the kid-safe stop switch (~/.bjj-tv-stop, or a copy in the tree)
+logs/
+*.log
+.bjj-tv-stop
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+
+# Chrome / browser profiles and sign-in data. Never commit cookies or sessions.
+.bjj-tv-profile/
+*.profile/
+chrome-profile/
+chrome-user-data/
+**/Cookies
+**/Cookies-journal
+**/Login Data
+**/Login Data-journal
+**/Web Data
+**/Network Persistent State
