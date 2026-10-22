@@ -1,0 +1,47 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Norah BJJ TV</title>
+<style>html,body{margin:0;height:100%;background:#000;color:#fff;font-family:-apple-system,sans-serif;overflow:hidden;cursor:none}
+#p{width:100vw;height:100vh}#t{position:fixed;left:24px;bottom:20px;font-size:28px;opacity:.85;text-shadow:0 0 6px #000}
+#tap{position:fixed;inset:0;display:none;align-items:center;justify-content:center;font-size:48px;background:#000c}</style></head>
+<body><div id="p"></div><div id="t"></div><div id="tap">Press any key to start ▶</div>
+<script src="playlist-core.js"></script>
+<script>
+// Modes: standalone (YouTube-only loop) or controlled (?yt=ID from controller; signals end via title).
+var q = new URLSearchParams(location.search), single = q.get('yt'), player, rot, unmuteTried = false;
+function show(t){ document.getElementById('t').textContent = t || ''; }
+function signal(s){ document.title = 'BJJTV:' + s; }  // controller watches the title
+function playItem(it){ show(it.title); player.loadVideoById(PlaylistCore.youtubeId(it.url)); }
+function advance(){
+  if (single) return signal('ended');
+  var it = rot.next(); if (!it) return show('Playlist empty');
+  if (it.type !== 'youtube') return advance(); // standalone mode skips AOJ+
+  playItem(it);
+}
+function onState(e){
+  if (e.data === YT.PlayerState.ENDED) { rot && rot.ok(); advance(); }
+  if (e.data === YT.PlayerState.PLAYING && player.isMuted() && !unmuteTried) { unmuteTried = true; player.unMute(); player.setVolume(100); }
+}
+function onErr(e){
+  console.warn('yt error', e.data);
+  if (single) return signal('error');
+  if (rot.fail()) { show('Videos failing, retrying in 60s'); rot.ok(); return setTimeout(advance, 60000); }
+  advance();
+}
+// Stall watchdog: if not playing for 45s, skip.
+var lastT = -1, stuck = 0;
+setInterval(function(){ if(!player||!player.getCurrentTime) return; var t=player.getCurrentTime();
+  if (t === lastT && player.getPlayerState() !== YT.PlayerState.PAUSED) { if (++stuck >= 9) { stuck = 0; onErr({data:'stall'}); } } else stuck = 0; lastT = t; }, 5000);
+function onYouTubeIframeAPIReady(){
+  player = new YT.Player('p', { width:'100%', height:'100%',
+    playerVars: { autoplay:1, mute:1, controls:0, rel:0, modestbranding:1, playsinline:1, iv_load_policy:3 },
+    events: { onReady: function(){ if (single) { player.loadVideoById(single); } else start(); }, onStateChange: onState, onError: onErr } });
+}
+function start(){
+  fetch('/playlist.json', {cache:'no-store'}).then(function(r){return r.json();}).then(function(pl){
+    rot = new PlaylistCore.Rotator(PlaylistCore.normalize(pl)); advance();
+  }).catch(function(){ show('Could not load playlist.json'); });
+}
+document.addEventListener('keydown', function(){ player && player.unMute && player.unMute(); });
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body></html>

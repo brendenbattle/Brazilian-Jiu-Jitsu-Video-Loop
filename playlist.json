@@ -1,0 +1,15 @@
+{
+  "_help": "Edit 'items' only. type = youtube or aoj. Set enabled:false to skip one. Order = play order. Loops forever.",
+  "settings": { "shuffle": false, "max_minutes_per_video": 25, "aoj_ended_grace_seconds": 3 },
+  "items": [
+    { "type": "aoj", "title": "Defending the Stack Pass (Tainan Dalpra)", "url": "https://aojplus.artofjiujitsu.com/programs/defending-the-stack-pass-tainan-dalpra", "enabled": true },
+    { "type": "aoj", "title": "Toreando Pass", "url": "https://aojplus.artofjiujitsu.com/programs/toreando-pass", "enabled": true },
+    { "type": "aoj", "title": "Wrestling Up From a Supine Position", "url": "https://aojplus.artofjiujitsu.com/programs/wrestling-up-from-a-supine-position", "enabled": true },
+    { "type": "aoj", "title": "No-Arm Triangle vs Stack Pass (Zach Kaina)", "url": "https://aojplus.artofjiujitsu.com/programs/no-arm-triangle-versus-stack-pass-zach-kaina", "enabled": true },
+    { "type": "aoj", "title": "Inside AOJ Kids 5-7 Class (June 12, 2023)", "url": "https://aojplus.artofjiujitsu.com/programs/inside-aoj-kids-5-7-class-june-12-2023", "enabled": true },
+    { "type": "youtube", "title": "Drill Session: Speed Pass by Rafael Mendes | Art of Jiu Jitsu", "url": "https://www.youtube.com/watch?v=Qu_9Lcdrh_w", "enabled": true },
+    { "type": "youtube", "title": "Free Technique: Knee Slide Pass (Guard Pass System) | Gui Mendes | AOJ+", "url": "https://www.youtube.com/watch?v=80y0o5fMEKA", "enabled": true },
+    { "type": "youtube", "title": "Jiu-Jitsu Fundamentals | Closed Guard Break to Double Under to Stack Pass", "url": "https://www.youtube.com/watch?v=D1hF_dyemSQ", "enabled": true },
+    { "type": "youtube", "title": "PMA BJJ Backward Roll Counter to Stack Pass", "url": "https://www.youtube.com/watch?v=bddWtJxLWKg", "enabled": true }
+  ]
+}
